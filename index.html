@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thiago Braga Saraiva · Engenharia de IA</title>
+<meta name="description" content="Estudante de Engenharia de Computação (UFRGS). Projetos com LLMs, RAG, agentes, evals e fine-tuning de modelos em português.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --surface: #f5f5f3;
+    --fg: #16161a;
+    --muted: #5a5a61;
+    --line: #e3e3df;
+    --accent: #d0101e;
+    --on-accent: #ffffff;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121214;
+      --surface: #1c1c20;
+      --fg: #ededef;
+      --muted: #a3a3aa;
+      --line: #2e2e34;
+      --accent: #ff5a5f;
+      --on-accent: #121214;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 400 16px/1.6 var(--sans);
+    overflow-wrap: break-word;
+  }
+  a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+  @media (min-width: 48rem) { .wrap { padding: 0 2rem; } }
+  .eyebrow { margin: 0; font: 500 .8125rem/1.4 var(--mono); color: var(--muted); letter-spacing: .02em; }
+
+  /* Abertura */
+  .hero { padding: 4rem 0 3.5rem; }
+  @media (min-width: 48rem) { .hero { padding: 7rem 0 5rem; } }
+  .hero h1 { margin: 0; font-size: clamp(2.25rem, 7vw, 4.25rem); line-height: 1.04; letter-spacing: -.035em; font-weight: 700; }
+  .role { margin: 1rem 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .625rem; font-size: clamp(1.0625rem, 2.2vw, 1.25rem); font-weight: 500; }
+  .dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--accent); flex: none; }
+  .sep { color: var(--muted); }
+  .intro { margin: 1.5rem 0 0; max-width: 40rem; font-size: clamp(1.0625rem, 2vw, 1.1875rem); color: var(--muted); }
+  .links { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .links a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem;
+    border: 1px solid var(--line); border-radius: 999px; font-weight: 500; font-size: .9375rem; text-decoration: none;
+  }
+  .links a.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+  /* Seções */
+  .section { padding: 3.5rem 0; border-top: 1px solid var(--line); }
+  @media (min-width: 48rem) { .section { padding: 5rem 0; } }
+  .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 2rem; margin-bottom: 2rem; }
+  @media (min-width: 48rem) { .section-head { margin-bottom: 3rem; } }
+  h2 { margin: 0; font-size: clamp(1.5rem, 3.5vw, 2rem); line-height: 1.2; letter-spacing: -.02em; font-weight: 700; }
+
+  /* Projetos */
+  .projects { list-style: none; margin: 0; padding: 0; }
+  .project { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding: 2.5rem 0; border-top: 1px solid var(--line); }
+  .project:first-child { border-top: 0; padding-top: 0; }
+  .project:last-child { padding-bottom: 0; }
+  @media (min-width: 56rem) { .project { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 3.5rem; padding: 3rem 0; } }
+  .p-num { margin: 0; font: 500 .8125rem/1 var(--mono); color: var(--accent); }
+  .project h3 { margin: .625rem 0 0; font-size: 1.375rem; line-height: 1.3; letter-spacing: -.01em; font-weight: 700; }
+  .desc { margin: .75rem 0 0; color: var(--muted); }
+  .stack { list-style: none; padding: 0; margin: 1.125rem 0 0; display: flex; flex-wrap: wrap; gap: .375rem; }
+  .stack li { font: 400 .8125rem/1.2 var(--mono); padding: .375rem .625rem; background: var(--surface); border-radius: 6px; }
+  .plink { display: inline-flex; align-items: center; min-height: 44px; margin-top: .5rem; font-weight: 600; }
+  .private { margin: 1rem 0 0; font: 500 .8125rem/1.4 var(--mono); color: var(--muted); }
+
+  /* Números de cada projeto */
+  .metrics {
+    margin: 0; align-self: start; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  }
+  .metrics > div { background: var(--bg); padding: 1.125rem 1rem 1.25rem; display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: .5rem; }
+  @media (min-width: 30rem) { .metrics > div { padding: 1.375rem 1.375rem 1.5rem; } }
+  .metrics > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .metrics dd { margin: 0; font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 700; line-height: 1; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+  .metrics > div:first-child dd { color: var(--accent); }
+  .metrics dt { font-size: .875rem; line-height: 1.45; color: var(--muted); }
+
+  /* Lição dos evals */
+  .lesson { background: var(--surface); border-radius: 20px; padding: 2rem 1.25rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  @media (min-width: 48rem) { .lesson { padding: 3.5rem; } }
+  @media (min-width: 56rem) { .lesson { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 3.5rem; } }
+  .lesson h2 { margin-top: .75rem; }
+  .delta { margin: 1.75rem 0 0; display: flex; flex-wrap: nowrap; align-items: flex-end; gap: .75rem 1.25rem; }
+  .delta .v { display: block; font-size: clamp(2.5rem, 6vw, 3.25rem); font-weight: 700; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .delta .l { display: block; margin-top: .5rem; font-size: .875rem; color: var(--muted); }
+  .delta .before .v { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 3px; }
+  .delta .after .v { color: var(--accent); }
+  .arrow { font-size: 1.75rem; line-height: 1; color: var(--muted); padding-bottom: 2rem; }
+  .audit { margin-top: 2rem; }
+  .cells { display: grid; grid-template-columns: repeat(17, minmax(0, 1fr)); gap: 3px; max-width: 22rem; }
+  .cells span { aspect-ratio: 1; border-radius: 3px; border: 1.5px solid var(--muted); }
+  .cells span.ruler { background: var(--accent); border-color: var(--accent); }
+  .audit p { margin: .75rem 0 0; font-size: .875rem; color: var(--muted); }
+  .lesson-text { margin: 0; font-size: clamp(1.0625rem, 2vw, 1.25rem); line-height: 1.65; }
+
+  /* Experiência, formação e ferramentas */
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { display: grid; grid-template-columns: minmax(0, 1fr); gap: .25rem 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+  .timeline li:first-child { border-top: 0; padding-top: 0; }
+  @media (min-width: 40rem) { .timeline li { grid-template-columns: 11rem minmax(0, 1fr); } }
+  .when { margin: 0; font: 400 .875rem/1.6 var(--mono); color: var(--muted); }
+  .timeline h3, .edu h3 { margin: 0; font-size: 1.0625rem; font-weight: 700; line-height: 1.4; }
+  .org { font-weight: 500; color: var(--muted); }
+  .what { margin: .25rem 0 0; color: var(--muted); }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.5rem; }
+  @media (min-width: 56rem) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; } }
+  .split h2 { margin-bottom: 1.5rem; }
+  .edu { list-style: none; margin: 0; padding: 0; }
+  .edu li { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+  .edu li:first-child { border-top: 0; padding-top: 0; }
+  .edu p { margin: .25rem 0 0; color: var(--muted); }
+  .tools { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .tools li { padding: .5rem .75rem; border: 1px solid var(--line); border-radius: 8px; font-size: .9375rem; line-height: 1.3; }
+
+  .foot { border-top: 1px solid var(--line); padding: 2rem 0 3rem; }
+  .foot p { margin: 0; font: 400 .8125rem/1.6 var(--mono); color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <p class="eyebrow">Portfólio</p>
+  <h1>Thiago Braga Saraiva</h1>
+  <p class="role"><span class="dot" aria-hidden="true"></span>Engenharia de IA <span class="sep" aria-hidden="true">·</span> Engenharia de Computação na UFRGS</p>
+  <p class="intro">Comecei na bancada de eletrônica, soldando placas e testando equipamentos de telecom. Hoje construo software com LLMs e meço o que funciona antes de confiar: cada projeto abaixo tem um eval com números que dá para conferir.</p>
+  <ul class="links" aria-label="Contato e perfis">
+    <li><a class="primary" href="https://github.com/thiagosaraiv4">GitHub</a></li>
+    <li><a href="https://huggingface.co/Saraiv4">Hugging Face</a></li>
+    <li><a href="https://www.linkedin.com/in/thiagobsaraiva/">LinkedIn</a></li>
+    <li><a href="mailto:thiagobsaraiva@gmail.com">thiagobsaraiva@gmail.com</a></li>
+  </ul>
+</header>
+
+<main>
+  <section class="section wrap" aria-labelledby="t-projetos">
+    <div class="section-head"><h2 id="t-projetos">Projetos</h2><p class="eyebrow">05 projetos</p></div>
+    <ol class="projects">
+      <li class="project">
+        <div>
+          <p class="p-num">01</p>
+          <h3>Bot de atendimento para WhatsApp com IA</h3>
+          <p class="desc">Agente que responde dúvidas, agenda serviços e passa a conversa para um humano. Usa RAG com BM25 e tool calling com argumentos validados: o LLM decide a ação e o código executa, com confirmação do cliente antes de gravar.</p>
+          <ul class="stack" aria-label="Stack"><li>TypeScript</li><li>Fastify</li><li>Groq (gpt-oss-120b)</li><li>Evolution API</li><li>SQLite</li><li>zod</li><li>Docker</li></ul>
+          <a class="plink" href="https://github.com/thiagosaraiv4/whatsapp-ai-atendimento">Ver código do bot no GitHub</a>
+        </div>
+        <dl class="metrics">
+          <div><dt>de acerto de intenção (o melhor de três LLMs comparados)</dt><dd>90,9%</dd></div>
+          <div><dt>alucinações em 36 respostas</dt><dd>0</dd></div>
+          <div><dt>de resistência a prompt injection</dt><dd>75,8%</dd></div>
+          <div><dt>testes automatizados</dt><dd>20</dd></div>
+        </dl>
+      </li>
+      <li class="project">
+        <div>
+          <p class="p-num">02</p>
+          <h3>Classificador de intenções em português</h3>
+          <p class="desc">Fine-tuning do BERTimbau para separar mensagens de atendimento em quatro intenções, com dados sintéticos revisados e verificação de vazamento entre treino e teste. Comparado a um baseline TF-IDF e a LLMs na mesma prova.</p>
+          <ul class="stack" aria-label="Stack"><li>Python</li><li>Transformers</li><li>BERTimbau</li><li>scikit-learn</li><li>Google Colab</li></ul>
+          <a class="plink" href="https://huggingface.co/Saraiv4/classificador-atendimento">Ver modelo no Hugging Face</a>
+        </div>
+        <dl class="metrics">
+          <div><dt>de acurácia</dt><dd>85,2%</dd></div>
+          <div><dt>de F1 na escalação, contra 0,76 do baseline</dt><dd>0,89</dd></div>
+          <div><dt>agendamentos certos, onde os LLMs acertaram 6/10</dt><dd>10/10</dd></div>
+        </dl>
+      </li>
+      <li class="project">
+        <div>
+          <p class="p-num">03</p>
+          <h3>ClipBot</h3>
+          <p class="desc">App desktop que detecta momentos relevantes em transmissões, pelo áudio, pelo chat da Twitch e pela telemetria de sim racing, e gera clipes prontos, com título criado por uma cascata de LLMs que troca de provedor quando um falha.</p>
+          <ul class="stack" aria-label="Stack"><li>Python</li><li>Whisper</li><li>Gemini, Claude e OpenAI</li><li>FFmpeg</li><li>MediaPipe</li><li>Playwright</li></ul>
+          <a class="plink" href="https://github.com/thiagosaraiv4/clipbot">Ver código do ClipBot no GitHub</a>
+        </div>
+        <dl class="metrics">
+          <div><dt>testes automatizados, aproximadamente</dt><dd>~300</dd></div>
+          <div><dt>provedores de LLM com fallback</dt><dd>3</dd></div>
+        </dl>
+      </li>
+      <li class="project">
+        <div>
+          <p class="p-num">04</p>
+          <h3>Trader</h3>
+          <p class="desc">Motor de backtest e paper trading com dados de mercado ao vivo da Binance, com fallback para Bybit e Kraken. As ordens são simuladas.</p>
+          <ul class="stack" aria-label="Stack"><li>Python</li><li>Pandas</li><li>CCXT</li><li>PySide6</li></ul>
+          <a class="plink" href="https://github.com/thiagosaraiv4/trader">Ver código do Trader no GitHub</a>
+        </div>
+      </li>
+      <li class="project">
+        <div>
+          <p class="p-num">05</p>
+          <h3>Firmware do Calorímetro Metabolix M1</h3>
+          <p class="desc">Telas e fluxos de um equipamento médico em microcontrolador, com um simulador para validar a interface sem a placa e mais de 1.400 verificações automatizadas.</p>
+          <ul class="stack" aria-label="Stack"><li>C</li><li>LVGL</li><li>STM32U5</li><li>MDI Industrial</li></ul>
+          <p class="private">Projeto de empresa · código privado</p>
+        </div>
+        <dl class="metrics">
+          <div><dt>verificações automatizadas</dt><dd>1.400+</dd></div>
+        </dl>
+      </li>
+    </ol>
+  </section>
+
+  <section class="section wrap" aria-labelledby="t-licao">
+    <div class="lesson">
+      <div>
+        <p class="eyebrow">Eval de segurança · bot de WhatsApp</p>
+        <h2 id="t-licao">Uma lição dos evals</h2>
+        <p class="delta"><span class="before"><span class="v">57,6%</span><span class="l">primeira rodada</span></span><span class="arrow" aria-hidden="true">→</span><span class="after"><span class="v">75,8%</span><span class="l">número real</span></span></p>
+        <div class="audit">
+          <div class="cells" aria-hidden="true"><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span class="ruler"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <p>17 reprovações lidas uma a uma · 9 eram erro da régua</p>
+        </div>
+      </div>
+      <p class="lesson-text">Na primeira rodada do eval de segurança do bot, a resistência a prompt injection deu 57,6%. Antes de corrigir o modelo, li as 17 reprovações uma a uma: 9 eram erro da minha régua, como “não posso confirmar que o corte seja gratuito” sendo lido como “grátis”. Corrigi a regra, reconferi as mesmas respostas sem chamar a API de novo e transformei os casos em testes. O número real era 75,8%. <strong>Um eval também precisa ser testado.</strong></p>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="t-exp">
+    <div class="section-head"><h2 id="t-exp">Experiência</h2></div>
+    <ol class="timeline">
+      <li><p class="when">set/2026 – atual</p><div><h3>Estagiário de TI <span class="org">· CREA-RS</span></h3><p class="what">Suporte a usuários, sistemas, redes locais e chamados.</p></div></li>
+      <li><p class="when">ago – out/2026</p><div><h3>Desenvolvedor de interface embarcada <span class="org">· MDI Industrial</span></h3><p class="what">Telas em C com LVGL para STM32, simulador e verificações automatizadas.</p></div></li>
+      <li><p class="when">set/2024 – jul/2025</p><div><h3>Operador de Produção II <span class="org">· Datacom</span></h3><p class="what">Testes funcionais e troubleshooting de equipamentos de telecom.</p></div></li>
+      <li><p class="when">ago/2020 – set/2021</p><div><h3>Auxiliar de produção <span class="org">· MDI Industrial</span></h3><p class="what">Soldagem SMD e PTH, montagem e diagnóstico de placas.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="section wrap" aria-label="Formação e ferramentas">
+    <div class="split">
+      <div>
+        <h2>Formação</h2>
+        <ul class="edu">
+          <li><h3>Análise e Desenvolvimento de Sistemas</h3><p>Uninter · Tecnólogo, EAD · até dez/2028</p></li>
+          <li><h3>Engenharia de Computação</h3><p>UFRGS · em andamento</p></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Ferramentas</h2>
+        <ul class="tools"><li>Python</li><li>TypeScript</li><li>C/C++</li><li>LLMs e tool calling</li><li>RAG</li><li>Evals</li><li>Transformers</li><li>scikit-learn</li><li>Whisper</li><li>Node.js e Fastify</li><li>SQLite</li><li>Docker</li><li>Git</li><li>STM32 e LVGL</li><li>Claude Code</li></ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="wrap"><p>Porto Alegre, RS · Atualizado em novembro de 2026</p></div></footer>
+
+</body>
+</html>
